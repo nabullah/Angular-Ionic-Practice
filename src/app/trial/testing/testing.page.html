@@ -1,0 +1,109 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>Grid</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="filterSearchData($event)"></ion-searchbar>
+  <!-- <ngx-datatable class="fullscreen" [rows]="products" [columnMode]="'force'" [reorderable]="false">
+    <ngx-datatable-column name="name"></ngx-datatable-column>
+    <ngx-datatable-column name="category"></ngx-datatable-column>
+    <ngx-datatable-column name="price"></ngx-datatable-column>
+    <ngx-datatable-column name="description"></ngx-datatable-column>
+  </ngx-datatable> -->
+  <div class="filter-sort d-flex justify-content-between" *ngIf="products.length !== 0">
+    <ion-button mode='ios' fill="outline" color="dark" class="w-100 filter-btn" id="open-modal-sort"
+      (click)="isSortModalOpen = true"><i class='bx bx-sort' expand="block"></i>Sort</ion-button>
+    <ion-button mode='ios' fill="outline" color="dark" class="w-100 sort-btn" id="open-modal-filter" expand="block"><i
+        class='bx bx-filter'></i>Filter</ion-button>
+  </div>
+  <ion-grid>
+    <ion-row>
+      <ng-container *ngFor="let item of products">
+        <ion-col size="6" [sizeSm]="4">
+          <ion-card>
+            <img alt="Silhouette of mountains" [src]="item.image" />
+            <ion-card-header>
+              <ion-card-subtitle>{{item.category | titlecase}}</ion-card-subtitle>
+              <ion-card-title color="primary">
+                <div class="d-sm-flex justify-content-between align-items-center">
+                  <p class="font-1">{{item.name}}</p>
+                  <p class="font-1">{{item.price}}</p>
+                </div>
+              </ion-card-title>
+            </ion-card-header>
+            <ion-card-content>{{item.description}}</ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ng-container>
+      <ng-container *ngIf="products.length === 0">
+          <img src="../../../assets/10946464_4612562.svg" alt="" class="img-fluid">
+          <p class="fs-1 w-100 text-center mt-3">No results found !</p>
+      </ng-container>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<!-- Filter Modal  -->
+<ion-modal trigger="open-modal-filter" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.25, 0.5, 0.75]">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-button (click)="cancel()">Cancel</ion-button>
+        </ion-buttons>
+        <!-- <ion-title>Welcome</ion-title> -->
+        <ion-buttons slot="end">
+          <ion-button (click)="filterProducts()" [strong]="true">Filter</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <ion-item>
+        <ion-select label="Categories" interface="action-sheet" placeholder="Select Category"
+          (ionChange)="filterByCategoryF($event)">
+          <ion-select-option class="color-light" [value]="item.name" *ngFor="let item of categories">{{item.category |
+            titlecase}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-select label="Price Range" interface="action-sheet" placeholder="Select Price Range"
+          (ionChange)="filterByPrice($event)">
+          <ion-select-option class="color-light" value="<500"> &lt; 500</ion-select-option>
+          <ion-select-option class="color-light" value="501-2000">501 - 2000</ion-select-option>
+          <ion-select-option class="color-light" value=">2000">&gt; 2000</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <div class="w-100 text-center mt-3" *ngIf="isFilter">
+        <ion-button (click)="clearFilter()" [strong]="true">Clear Filter</ion-button>
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+
+<!-- Sort Modal  -->
+<ion-modal trigger="open-modal-sort" [initialBreakpoint]="0.5" [isOpen]="isSortModalOpen"
+  [breakpoints]="[0, 0.25, 0.5, 0.75]">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="end">
+          <ion-button (click)="isSortModalOpen = false">Cancel</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <ion-item>
+        <ion-button (click)="sortByName()" [strong]="true" class="w-100">Sort by name</ion-button>
+      </ion-item>
+      <ion-item>
+        <ion-button (click)="sortByCategoryF()" [strong]="true" class="w-100">Sort by category</ion-button>
+      </ion-item>
+      <div class="w-100 text-center mt-3" *ngIf="isSort">
+        <ion-button (click)="clearSort()" [strong]="true">Clear Sort</ion-button>
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>

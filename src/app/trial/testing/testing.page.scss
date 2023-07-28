@@ -1,0 +1,11 @@
+ion-card {
+  margin: 0 !important;
+}
+
+.sort-btn,
+.filter-btn {
+  --border-radius: 0;
+  --border-width: 0px;
+  --ripple-color: rgb(87, 132, 11);
+  --background-activated: none;
+}
