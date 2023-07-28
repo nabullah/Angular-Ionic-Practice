@@ -18,6 +18,7 @@ export class TestingPage implements OnInit {
   isSort = false;
   isFilter = false;
   isSortModalOpen = false;
+  isFilterModalOpen = false;
   constructor() {}
 
   ngOnInit() {}
@@ -51,6 +52,7 @@ export class TestingPage implements OnInit {
   filterProducts() {
     if (this.filterByCategory || this.priceRange) {
       this.applyFilter();
+      this.isFilterModalOpen = false;
       this.modal.dismiss(null, 'confirm');
     }
   }
@@ -152,5 +154,15 @@ export class TestingPage implements OnInit {
 
   closeSortModal() {
     this.isSortModalOpen = false;
+  }
+
+  clearAllFilters() {
+    this.products = this.productsDup;
+    this.isFilter = false;
+    this.filterByCategory = '';
+    this.priceRange = '';
+    this.isSort = false;
+    this.isSortModalOpen = false;
+    this.searchTerm = '';
   }
 }

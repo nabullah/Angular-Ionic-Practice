@@ -14,9 +14,10 @@
   </ngx-datatable> -->
   <div class="filter-sort d-flex justify-content-between" *ngIf="products.length !== 0">
     <ion-button mode='ios' fill="outline" color="dark" class="w-100 filter-btn" id="open-modal-sort"
-      (click)="isSortModalOpen = true"><i class='bx bx-sort' expand="block"></i>Sort</ion-button>
-    <ion-button mode='ios' fill="outline" color="dark" class="w-100 sort-btn" id="open-modal-filter" expand="block"><i
-        class='bx bx-filter'></i>Filter</ion-button>
+      (click)="isSortModalOpen = true; isFilterModalOpen = false"><i class='bx bx-sort'
+        expand="block"></i>Sort</ion-button>
+    <ion-button mode='ios' fill="outline" color="dark" class="w-100 sort-btn" id="open-modal-filter" expand="block"
+      (click)="isFilterModalOpen = true; isSortModalOpen = false"><i class='bx bx-filter'></i>Filter</ion-button>
   </div>
   <ion-grid>
     <ion-row>
@@ -38,15 +39,23 @@
         </ion-col>
       </ng-container>
       <ng-container *ngIf="products.length === 0">
+        <div class="d-flex align-items-center justify-content-center flex-column m-auto">
           <img src="../../../assets/10946464_4612562.svg" alt="" class="img-fluid">
           <p class="fs-1 w-100 text-center mt-3">No results found !</p>
+          <div class="w-50 text-center">
+            <ion-button fill="outline" color="dark" class="" expand="block" (click)="clearAllFilters()"><i
+                class='bx bx-arrow-back'></i>Back</ion-button>
+
+          </div>
+        </div>
       </ng-container>
     </ion-row>
   </ion-grid>
 </ion-content>
 
 <!-- Filter Modal  -->
-<ion-modal trigger="open-modal-filter" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.25, 0.5, 0.75]">
+<ion-modal trigger="open-modal-filter" [isOpen]="isFilterModalOpen" [initialBreakpoint]="0.5"
+  [breakpoints]="[0, 0.25, 0.5, 0.75]">
   <ng-template>
     <ion-header>
       <ion-toolbar>
